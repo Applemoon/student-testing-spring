@@ -3,13 +3,17 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="personService" class="ru.uvarov.students.service.PersonService"/>
 
-    <bean id="personDao" class="ru.otus.spring01.dao.PersonDaoSimple">
-        <property name="defaultAge" value="28"/>
+    <bean id="fileService" class="ru.uvarov.students.service.FileService"/>
+
+    <bean id="questionsService" class="ru.uvarov.students.service.QuestionsService">
+        <constructor-arg name="fileService" ref="fileService"/>
     </bean>
 
-    <bean id="personService" class="ru.otus.spring01.service.PersonServiceImpl">
-        <constructor-arg name="dao" ref="personDao"/>
+    <bean id="ioService" class="ru.uvarov.students.service.IOService">
+        <constructor-arg name="personService" ref="personService"/>
+        <constructor-arg name="questionsService" ref="questionsService"/>
     </bean>
 
 </beans>

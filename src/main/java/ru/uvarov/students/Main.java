@@ -1,14 +1,17 @@
 package ru.uvarov.students;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.uvarov.students.service.IOService;
 
 public class Main {
 
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        PersonService service = context.getBean(PersonService.class);
-        Person ivan = service.getByName("Ivan");
-        System.out.println("name: " + ivan.getName() + " age: " + ivan.getAge());
+        IOService ioService = context.getBean(IOService.class);
+        ioService.askName();
+        ioService.sayHello();
+        ioService.startTesting();
+        ioService.printResults();
     }
 }
 
