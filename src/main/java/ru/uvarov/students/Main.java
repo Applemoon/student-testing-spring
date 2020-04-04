@@ -1,17 +1,38 @@
 package ru.uvarov.students;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import ru.uvarov.students.service.IOService;
 
+@ComponentScan
+@Configuration
+@PropertySource("classpath:application.properties")
 public class Main {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
+
         IOService ioService = context.getBean(IOService.class);
+
         ioService.askName();
         ioService.sayHello();
         ioService.startTesting();
         ioService.printResults();
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfig() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("i18n/bundle");
+        messageSource.setDefaultEncoding("UTF8");
+        return messageSource;
     }
 }
 

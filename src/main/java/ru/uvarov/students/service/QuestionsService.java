@@ -1,8 +1,11 @@
 package ru.uvarov.students.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class QuestionsService {
     private final List<String> questions = new ArrayList<>();
     private final List<List<String>> answers = new ArrayList<>();
@@ -10,11 +13,11 @@ public class QuestionsService {
     private int rightAnswersCount = 0;
 
     QuestionsService(FileService fileService) {
-        this.parseQuestions(fileService.readQuestions());
+        parseQuestions(fileService.readQuestions());
     }
 
     public int getResult() {
-        return this.rightAnswersCount;
+        return rightAnswersCount;
     }
 
     public int getTotalQuestions() {

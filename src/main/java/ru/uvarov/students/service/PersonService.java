@@ -1,7 +1,9 @@
 package ru.uvarov.students.service;
 
+import org.springframework.stereotype.Service;
 import ru.uvarov.students.domain.Person;
 
+@Service
 public class PersonService {
     private Person person;
 
