@@ -1,8 +1,8 @@
 package ru.uvarov.students.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import ru.uvarov.students.component.ApplicationSettings;
 
 import java.util.List;
 import java.util.Locale;
@@ -10,11 +10,19 @@ import java.util.Scanner;
 
 @Service
 public class IOService {
-    @Autowired private PersonService personService;
-    @Autowired private QuestionsService questionsService;
-    @Autowired private MessageSource messageSource;
+    private final PersonService personService;
+    private final QuestionsService questionsService;
+    private final MessageSource messageSource;
+    private final Locale locale;
     private final Scanner scanner = new Scanner(System.in);
-    private final Locale locale = Locale.ENGLISH;
+
+    public IOService(PersonService personService, QuestionsService questionsService, MessageSource messageSource,
+                     ApplicationSettings settings) {
+        this.personService = personService;
+        this.questionsService = questionsService;
+        this.messageSource = messageSource;
+        this.locale = settings.getLocale();
+    }
 
     public void askName() {
         System.out.print(messageSource.getMessage("enter.firstname", null, locale) + ": ");

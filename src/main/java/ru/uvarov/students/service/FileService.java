@@ -1,8 +1,7 @@
 package ru.uvarov.students.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import ru.uvarov.students.component.ApplicationSettings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,8 +14,11 @@ import java.util.List;
 
 @Service
 public class FileService {
-    @Value("${questions.filename}")
-    private String fileName;
+    private final String fileName;
+
+    public FileService(ApplicationSettings settings) {
+        fileName = settings.getFilename();
+    }
 
     List<List<String>> readQuestions() {
         List<List<String>> records = new ArrayList<>();

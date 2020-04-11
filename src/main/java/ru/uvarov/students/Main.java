@@ -1,19 +1,18 @@
 package ru.uvarov.students;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.*;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import ru.uvarov.students.service.IOService;
 
-@ComponentScan
-@Configuration
-@PropertySource("classpath:application.properties")
+@SpringBootApplication
 public class Main {
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
-
+        ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
         IOService ioService = context.getBean(IOService.class);
 
         ioService.askName();
@@ -22,10 +21,6 @@ public class Main {
         ioService.printResults();
     }
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfig() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 
     @Bean
     public MessageSource messageSource() {
