@@ -1,6 +1,7 @@
 package ru.uvarov.students.domain;
 
 public class Person {
+
     private final String firstName;
     private final String secondName;
 
@@ -15,5 +16,9 @@ public class Person {
 
     public String getSecondName() {
         return secondName;
+    }
+
+    public String toString() {
+        return String.format("%s %s", firstName, secondName);
     }
 }

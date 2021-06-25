@@ -8,6 +8,7 @@ import java.util.Locale;
 @Component
 @ConfigurationProperties("questions")
 public class ApplicationSettings {
+
     private String filename;
     private Locale locale;
 

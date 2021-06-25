@@ -5,6 +5,7 @@ import ru.uvarov.students.domain.Person;
 
 @Service
 public class PersonService {
+
     private Person person;
 
     public void saveName(String firstName, String secondName) {
@@ -12,6 +13,6 @@ public class PersonService {
     }
 
     public String getName() {
-        return String.format("%s %s", person.getFirstName(), person.getSecondName());
+        return person.toString();
     }
 }

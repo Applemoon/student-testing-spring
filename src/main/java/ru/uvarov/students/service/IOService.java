@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 @Service
 public class IOService {
+
     private final PersonService personService;
     private final QuestionsService questionsService;
     private final MessageSource messageSource;
@@ -50,7 +51,7 @@ public class IOService {
 
             System.out.println(messageSource.getMessage("answers", null, locale));
             for (int i = 0; i < answers.size(); i++) {
-                System.out.println(String.format("%d: %s", i + 1, answers.get(i)));
+                System.out.printf("%d: %s%n", i + 1, answers.get(i));
             }
 
             System.out.print(messageSource.getMessage("your.answer.number", null, locale) + ": ");
@@ -59,8 +60,7 @@ public class IOService {
             int answer = -1;
             while (!done) {
                 try {
-                    String answerStr = scanner.nextLine();
-                    answer = Integer.parseInt(answerStr);
+                    answer = Integer.parseInt(scanner.nextLine());
                     done = true;
                 } catch (NumberFormatException e) {
                     System.out.print(messageSource.getMessage("parsing.error", null, locale) + ": ");

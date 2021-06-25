@@ -14,13 +14,14 @@ import java.util.List;
 
 @Service
 public class FileService {
+
     private final String fileName;
 
     public FileService(ApplicationSettings settings) {
         fileName = settings.getFilename();
     }
 
-    List<List<String>> readQuestions() {
+    public List<List<String>> readQuestions() {
         List<List<String>> records = new ArrayList<>();
 
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -30,8 +31,7 @@ public class FileService {
         try (BufferedReader br = new BufferedReader(streamReader)) {
             String line;
             while ((line = br.readLine()) != null) {
-                String COMMA_DELIMITER = ",";
-                String[] values = line.split(COMMA_DELIMITER);
+                String[] values = line.split(",");
                 records.add(Arrays.asList(values));
             }
         } catch (IOException e) {

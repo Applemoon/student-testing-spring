@@ -7,12 +7,13 @@ import java.util.List;
 
 @Service
 public class QuestionsService {
+
     private final List<String> questions = new ArrayList<>();
     private final List<List<String>> answers = new ArrayList<>();
     private final List<Integer> rightAnswers = new ArrayList<>();
     private int rightAnswersCount = 0;
 
-    QuestionsService(FileService fileService) {
+    public QuestionsService(FileService fileService) {
         parseQuestions(fileService.readQuestions());
     }
 
@@ -43,8 +44,7 @@ public class QuestionsService {
             int size = string.size();
             questions.add(string.get(0));
             answers.add(string.subList(1, size - 1));
-            int rightAnswer = Integer.parseInt(string.get(size - 1));
-            rightAnswers.add(rightAnswer);
+            rightAnswers.add(Integer.parseInt(string.get(size - 1)));
         }
     }
 }
