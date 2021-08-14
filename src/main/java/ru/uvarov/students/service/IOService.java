@@ -4,6 +4,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.uvarov.students.component.ApplicationSettings;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -25,7 +26,15 @@ public class IOService {
         this.locale = settings.getLocale();
     }
 
-    public void askName() {
+    @PostConstruct
+    private void postConstruct() {
+        askName();
+        sayHello();
+        startTesting();
+        printResults();
+    }
+
+    private void askName() {
         System.out.print(messageSource.getMessage("enter.firstname", null, locale) + ": ");
         String firstName = scanner.nextLine();
         System.out.print(messageSource.getMessage("enter.secondname", null, locale) + ": ");
@@ -34,11 +43,11 @@ public class IOService {
         personService.saveName(firstName, secondName);
     }
 
-    public void sayHello() {
+    private void sayHello() {
         System.out.println(messageSource.getMessage("hello.username", new String[] {personService.getName()}, locale));
     }
 
-    public void startTesting() {
+    private void startTesting() {
         final int totalQuestions = questionsService.getTotalQuestions();
         for (int questionNumber = 0; questionNumber < totalQuestions; questionNumber++) {
             String question = questionsService.getQuestion(questionNumber);
@@ -71,7 +80,7 @@ public class IOService {
         }
     }
 
-    public void printResults() {
+    private void printResults() {
         final int result = questionsService.getResult();
         final int totalQuestions = questionsService.getTotalQuestions();
         System.out.println(messageSource.getMessage(
