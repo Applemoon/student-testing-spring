@@ -1,22 +1,17 @@
 package ru.uvarov.students.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Getter
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class Person {
 
-    private final String firstName;
-    private final String secondName;
-
-    public Person(String firstName, String secondName) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getSecondName() {
-        return secondName;
-    }
+    String firstName;
+    String secondName;
 
     public String toString() {
         return String.format("%s %s", firstName, secondName);

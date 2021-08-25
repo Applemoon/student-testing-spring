@@ -1,60 +1,50 @@
 package ru.uvarov.students.service;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 class QuestionsServiceTest {
 
-    @Test
-    void getResult() {
-        assertEquals(4, getTestQuestionService().getResult());
-    }
+    @MockBean
+    FileService fileService;
 
     @Test
     void getTotalQuestions() {
-        assertEquals(4, getTestQuestionService().getTotalQuestions());
+        assertEquals(1, getTestQuestionService().getTotalQuestions());
+    }
+
+    @Test
+    void getTotalQuestionsFromEmpty() {
+        assertEquals(0, new QuestionsService(Collections.emptyList()).getTotalQuestions());
     }
 
     @Test
     void getQuestion() {
-        QuestionsService service = getTestQuestionService();
-        assertEquals("q1?", service.getQuestion(0));
-        assertEquals("q2?", service.getQuestion(1));
-        assertEquals("q3?", service.getQuestion(2));
-        assertEquals("q4?", service.getQuestion(3));
+        assertEquals("q1?", getTestQuestionService().getQuestion(0).getQuestionText());
     }
 
     @Test
-    void getAnswers() {
+    void saveAnswer() {
         QuestionsService service = getTestQuestionService();
-        assertEquals(Arrays.asList("a", "b", "c", "d"), service.getAnswers(0));
-        assertEquals(Arrays.asList("a", "b", "c", "d"), service.getAnswers(1));
-        assertEquals(Arrays.asList("a", "b", "c", "d"), service.getAnswers(2));
-        assertEquals(Arrays.asList("a", "b", "c", "d"), service.getAnswers(3));
+        service.saveAnswer(1, 0);
+        assertEquals(1, service.getResult());
     }
 
     private QuestionsService getTestQuestionService() {
-        FileService fileService = Mockito.mock(FileService.class);
-        List<List<String>> answers = Arrays.asList(
-                Arrays.asList("q1?", "a", "b", "c", "d", "1"),
-                Arrays.asList("q2?", "a", "b", "c", "d", "2"),
-                Arrays.asList("q3?", "a", "b", "c", "d", "3"),
-                Arrays.asList("q4?", "a", "b", "c", "d", "4"));
-        Mockito.when(fileService.readQuestions()).thenReturn(answers);
-        QuestionsService questionsService = new QuestionsService(fileService);
+        List<List<String>> answers = Collections.singletonList(
+                Arrays.asList("q1?", "a", "b", "c", "d", "1")
+        );
+        given(fileService.readQuestions()).willReturn(answers);
 
-        questionsService.saveAnswer(1, 0);
-        questionsService.saveAnswer(2, 1);
-        questionsService.saveAnswer(3, 2);
-        questionsService.saveAnswer(4, 3);
-
-        return questionsService;
+        return new QuestionsService(fileService.readQuestions());
     }
 }

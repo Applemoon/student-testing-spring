@@ -1,23 +1,29 @@
 package ru.uvarov.students.service;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.uvarov.students.component.ApplicationSettings;
+import ru.uvarov.students.domain.Question;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
 @Service
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class IOService {
 
-    private final PersonService personService;
-    private final QuestionsService questionsService;
-    private final MessageSource messageSource;
-    private final Locale locale;
-    private final Scanner scanner = new Scanner(System.in);
+    PersonService personService;
+    QuestionsService questionsService;
+    MessageSource messageSource;
+    Locale locale;
+    Scanner scanner = new Scanner(System.in);
 
-    public IOService(PersonService personService, QuestionsService questionsService, MessageSource messageSource,
+    public IOService(PersonService personService,
+                     QuestionsService questionsService,
+                     MessageSource messageSource,
                      ApplicationSettings settings) {
         this.personService = personService;
         this.questionsService = questionsService;
@@ -35,19 +41,18 @@ public class IOService {
     }
 
     public void sayHello() {
-        System.out.println(messageSource.getMessage("hello.username", new String[] {personService.getName()}, locale));
+        System.out.println(messageSource.getMessage("hello.username", new String[]{personService.getName()}, locale));
     }
 
     public void startTesting() {
-        final int totalQuestions = questionsService.getTotalQuestions();
-        for (int questionNumber = 0; questionNumber < totalQuestions; questionNumber++) {
-            String question = questionsService.getQuestion(questionNumber);
+        for (int questionNumber = 0; questionNumber < questionsService.getTotalQuestions(); questionNumber++) {
+            Question question = questionsService.getQuestion(questionNumber);
             System.out.println(messageSource.getMessage(
                     "question.number",
-                    new String[] {String.valueOf(questionNumber + 1), question},
+                    new String[]{String.valueOf(questionNumber + 1), question.getQuestionText()},
                     locale)
             );
-            List<String> answers = questionsService.getAnswers(questionNumber);
+            List<String> answers = question.getAnswers();
 
             System.out.println(messageSource.getMessage("answers", null, locale));
             for (int i = 0; i < answers.size(); i++) {
@@ -76,7 +81,7 @@ public class IOService {
         final int totalQuestions = questionsService.getTotalQuestions();
         System.out.println(messageSource.getMessage(
                 "your.result",
-                new String[] {personService.getName(), String.valueOf(result), String.valueOf(totalQuestions)},
+                new String[]{personService.getName(), String.valueOf(result), String.valueOf(totalQuestions)},
                 locale)
         );
 
