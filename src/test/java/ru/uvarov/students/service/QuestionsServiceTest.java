@@ -24,7 +24,8 @@ class QuestionsServiceTest {
 
     @Test
     void getTotalQuestionsFromEmpty() {
-        assertEquals(0, new QuestionsService(Collections.emptyList()).getTotalQuestions());
+        given(fileService.readQuestions()).willReturn(Collections.emptyList());
+        assertEquals(0, new QuestionsService(fileService).getTotalQuestions());
     }
 
     @Test
@@ -45,6 +46,6 @@ class QuestionsServiceTest {
         );
         given(fileService.readQuestions()).willReturn(answers);
 
-        return new QuestionsService(fileService.readQuestions());
+        return new QuestionsService(fileService);
     }
 }

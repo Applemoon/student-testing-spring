@@ -25,6 +25,7 @@ public class FileService {
         List<List<String>> records = new ArrayList<>();
 
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        assert fileName != null;
         InputStream inputStream = classloader.getResourceAsStream(fileName);
         assert inputStream != null;
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);

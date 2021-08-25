@@ -14,8 +14,8 @@ public class QuestionsService {
     @Getter
     private int result = 0;
 
-    public QuestionsService(List<List<String>> questionsStrings) {
-        for (List<String> string : questionsStrings) {
+    public QuestionsService(FileService fileService) {
+        for (List<String> string : fileService.readQuestions()) {
             questions.add(
                     Question.builder()
                             .questionText(string.get(0))

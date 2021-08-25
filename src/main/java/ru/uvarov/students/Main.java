@@ -2,25 +2,16 @@ package ru.uvarov.students;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import ru.uvarov.students.service.IOService;
 
 @SpringBootApplication
 public class Main {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
-        IOService ioService = context.getBean(IOService.class);
-
-        ioService.askName();
-        ioService.sayHello();
-        ioService.startTesting();
-        ioService.printResults();
+        SpringApplication.run(Main.class, args);
     }
-
 
     @Bean
     public MessageSource messageSource() {
